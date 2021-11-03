@@ -31,14 +31,15 @@ export default function GraditudeApp({user}) {
         .select('entry, date_insert_ts')
  
         if (!error) {
+            setGratitudes(gratitudes)
             let currentTime = new Date().getTime()
-            let mostRecentRecordTime = new Date(gratitudes.slice(-1)[0].data_insert_ts).getTime()
-            let hoursSinceLastSubmission = (mostRecentRecordTime - currentTime) / 3600000
+            let mostRecentRecordTime = new Date(gratitudes.slice(-1)[0].date_insert_ts).getTime()
+            let hoursSinceLastSubmission = (currentTime - mostRecentRecordTime) / 3600000
             let didSubmitToday = hoursSinceLastSubmission < 24
             setHasSubmittedToday(didSubmitToday)
 
-            setGratitudes(setGratitudes)
             setLoading(false)
+            console.log(gratitudes.slice(-1))
 
         } else{
             //there was an error
@@ -66,7 +67,7 @@ export default function GraditudeApp({user}) {
     // and state client on
             setGratitudes([...gratitudes, {'entry': entry, 'date_insert_ts': null}])
             setLoading(false)
-            setHasSubmittedToday(true)
+            //setHasSubmittedToday(true)
    
         }
     }   
